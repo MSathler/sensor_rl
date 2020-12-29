@@ -7,11 +7,13 @@ from pyrep.backend import sim
 from py_sensor import sensor
 import time
 from collections import namedtuple, deque
+
+
 class ReacherEnv(object):
 
     def __init__(self,SCENE_FILE):
         self.pr = PyRep()
-        self.pr.launch(SCENE_FILE, headless=True)
+        self.pr.launch(SCENE_FILE, headless=False)
         self.pr.start()
 
         self.agent = P3dx()
@@ -26,7 +28,7 @@ class ReacherEnv(object):
         self.angle_memory = deque(maxlen=5)
         self.initiate_Vmemory()
         self.zeros = 0
-        self.read = np.zeros(32)
+        self.read = 0.0
         self.h = 0
         self.n = 0
         self.m_read = 0.0
@@ -64,8 +66,13 @@ class ReacherEnv(object):
         ################## Q Table States #################
 
         ############## Adicionar memoria depois ###########
-        self.concentration_memory.append( ( self.m_read / 10000 ) )
+        aaa = self.read / 10000.0
+        # print(aaa)
+        self.concentration_memory.append( aaa )
+        # print(self.concentration_memory)
+        #print(self.read)
         self.distance_memory.append( distance_n )
+        # print(self.gradient)
         self.angle_memory.append( angle )
         #print(np.concatenate([self.v_memory,np.array( [self.gradient, angle, distance_n])]))
         return np.concatenate( [ self.concentration_memory, self.distance_memory, self.angle_memory, np.array( [self.gradient] ) ] ) #( self.sensor.read / 10000 ),
@@ -81,7 +88,7 @@ class ReacherEnv(object):
         self.gradient = 0
         self.h = 0
         self.n = 0
-        self.read = np.zeros(32)
+        self.read = 0.0
         self.zeros = 0
         self.initiate_Vmemory()
         self.done = False
@@ -131,7 +138,7 @@ class ReacherEnv(object):
             self._reward -= self.n
             
         
-        if self.read > 9000:
+        if self.read > 8000:
             self._reward += 1000
             self.done = True
 
@@ -158,7 +165,7 @@ class ReacherEnv(object):
         self.distance_memory = deque(maxlen=5)
         self.angle_memory = deque(maxlen=5)
         for _ in range(4):
-            self.concentration_memory.append(0)
+            self.concentration_memory.append(0.0)
             self.distance_memory.append(0)
             self.angle_memory.append(0)
 
