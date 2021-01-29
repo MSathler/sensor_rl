@@ -942,6 +942,25 @@ static PyObject* __Pyx_PyInt_AddObjC(PyObject *op1, PyObject *op2, long intval, 
     (inplace ? PyNumber_InPlaceAdd(op1, op2) : PyNumber_Add(op1, op2))
 #endif
 
+/* PyIntCompare.proto */
+static CYTHON_INLINE PyObject* __Pyx_PyInt_EqObjC(PyObject *op1, PyObject *op2, long intval, long inplace);
+
+/* PyFloatBinop.proto */
+#if !CYTHON_COMPILING_IN_PYPY
+static PyObject* __Pyx_PyFloat_SubtractObjC(PyObject *op1, PyObject *op2, double floatval, int inplace, int zerodivision_check);
+#else
+#define __Pyx_PyFloat_SubtractObjC(op1, op2, floatval, inplace, zerodivision_check)\
+    (inplace ? PyNumber_InPlaceSubtract(op1, op2) : PyNumber_Subtract(op1, op2))
+#endif
+
+/* PyFloatBinop.proto */
+#if !CYTHON_COMPILING_IN_PYPY
+static PyObject* __Pyx_PyFloat_AddObjC(PyObject *op1, PyObject *op2, double floatval, int inplace, int zerodivision_check);
+#else
+#define __Pyx_PyFloat_AddObjC(op1, op2, floatval, inplace, zerodivision_check)\
+    (inplace ? PyNumber_InPlaceAdd(op1, op2) : PyNumber_Add(op1, op2))
+#endif
+
 /* PyDictVersioning.proto */
 #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_TYPE_SLOTS
 #define __PYX_DICT_VERSION_INIT  ((PY_UINT64_T) -1)
@@ -1138,6 +1157,7 @@ int __pyx_module_is_main_cython_for = 0;
 
 /* Implementation of 'cython_for' */
 static PyObject *__pyx_builtin_range;
+static const char __pyx_k_a[] = "a";
 static const char __pyx_k_i[] = "i";
 static const char __pyx_k_w[] = "w";
 static const char __pyx_k_x[] = "x";
@@ -1157,16 +1177,21 @@ static const char __pyx_k_sensor_y[] = "_sensor_y";
 static const char __pyx_k_intensity[] = "_intensity";
 static const char __pyx_k_sum_reads[] = "_sum_reads";
 static const char __pyx_k_cython_for[] = "cython_for";
+static const char __pyx_k_dictionary[] = "dictionary";
 static const char __pyx_k_mean_reads[] = "mean_reads";
+static const char __pyx_k_wind_angle[] = "wind_angle";
 static const char __pyx_k_read_sensor[] = "read_sensor";
 static const char __pyx_k_cython_for_pyx[] = "cython_for.pyx";
 static const char __pyx_k_cython_distance[] = "cython_distance";
 static const char __pyx_k_sensor_dimention[] = "_sensor_dimention";
+static const char __pyx_k_read_pompy_sensor[] = "read_pompy_sensor";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
+static PyObject *__pyx_n_s_a;
 static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_n_s_cython_distance;
 static PyObject *__pyx_n_s_cython_for;
 static PyObject *__pyx_kp_s_cython_for_pyx;
+static PyObject *__pyx_n_s_dictionary;
 static PyObject *__pyx_n_s_dist;
 static PyObject *__pyx_n_s_i;
 static PyObject *__pyx_n_s_import;
@@ -1178,6 +1203,7 @@ static PyObject *__pyx_n_s_name;
 static PyObject *__pyx_n_s_points;
 static PyObject *__pyx_n_s_pow;
 static PyObject *__pyx_n_s_range;
+static PyObject *__pyx_n_s_read_pompy_sensor;
 static PyObject *__pyx_n_s_read_sensor;
 static PyObject *__pyx_n_s_sensor_dimention;
 static PyObject *__pyx_n_s_sensor_x;
@@ -1186,25 +1212,30 @@ static PyObject *__pyx_n_s_sqrt;
 static PyObject *__pyx_n_s_sum_reads;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_w;
+static PyObject *__pyx_n_s_wind_angle;
 static PyObject *__pyx_n_s_x;
 static PyObject *__pyx_n_s_y;
 static PyObject *__pyx_pf_10cython_for_read_sensor(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x, PyObject *__pyx_v_y, PyObject *__pyx_v__intensity, PyObject *__pyx_v__sensor_x, PyObject *__pyx_v__sensor_y, PyObject *__pyx_v__sensor_dimention, PyObject *__pyx_v__sum_reads); /* proto */
-static PyObject *__pyx_pf_10cython_for_2cython_distance(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v__points, PyObject *__pyx_v__intensity, PyObject *__pyx_v__sensor_x, PyObject *__pyx_v__sensor_y, PyObject *__pyx_v__sensor_dimention, PyObject *__pyx_v__sum_reads); /* proto */
+static PyObject *__pyx_pf_10cython_for_2read_pompy_sensor(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_dictionary, PyObject *__pyx_v__sensor_x, PyObject *__pyx_v__sensor_y, PyObject *__pyx_v__sensor_dimention, PyObject *__pyx_v__sum_reads); /* proto */
+static PyObject *__pyx_pf_10cython_for_4cython_distance(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v__points, PyObject *__pyx_v__intensity, PyObject *__pyx_v__sensor_x, PyObject *__pyx_v__sensor_y, PyObject *__pyx_v__sensor_dimention, PyObject *__pyx_v__sum_reads); /* proto */
+static PyObject *__pyx_float_0_05;
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_1;
 static PyObject *__pyx_int_2;
 static PyObject *__pyx_tuple_;
 static PyObject *__pyx_tuple__3;
+static PyObject *__pyx_tuple__5;
 static PyObject *__pyx_codeobj__2;
 static PyObject *__pyx_codeobj__4;
+static PyObject *__pyx_codeobj__6;
 /* Late includes */
 
 /* "cython_for.pyx":3
  * import math
  * 
  * def read_sensor(x,y,_intensity,_sensor_x,_sensor_y,_sensor_dimention,_sum_reads):             # <<<<<<<<<<<<<<
- *         w = 1
- *         mean_reads = 0
+ *     w = 1
+ *     mean_reads = 0
  */
 
 /* Python wrapper */
@@ -1350,29 +1381,29 @@ static PyObject *__pyx_pf_10cython_for_read_sensor(CYTHON_UNUSED PyObject *__pyx
   /* "cython_for.pyx":4
  * 
  * def read_sensor(x,y,_intensity,_sensor_x,_sensor_y,_sensor_dimention,_sum_reads):
- *         w = 1             # <<<<<<<<<<<<<<
- *         mean_reads = 0
- *         for i in range(len(_intensity)):
+ *     w = 1             # <<<<<<<<<<<<<<
+ *     mean_reads = 0
+ *     for i in range(len(_intensity)):
  */
   __Pyx_INCREF(__pyx_int_1);
   __pyx_v_w = __pyx_int_1;
 
   /* "cython_for.pyx":5
  * def read_sensor(x,y,_intensity,_sensor_x,_sensor_y,_sensor_dimention,_sum_reads):
- *         w = 1
- *         mean_reads = 0             # <<<<<<<<<<<<<<
- *         for i in range(len(_intensity)):
+ *     w = 1
+ *     mean_reads = 0             # <<<<<<<<<<<<<<
+ *     for i in range(len(_intensity)):
  * 
  */
   __Pyx_INCREF(__pyx_int_0);
   __pyx_v_mean_reads = __pyx_int_0;
 
   /* "cython_for.pyx":6
- *         w = 1
- *         mean_reads = 0
- *         for i in range(len(_intensity)):             # <<<<<<<<<<<<<<
+ *     w = 1
+ *     mean_reads = 0
+ *     for i in range(len(_intensity)):             # <<<<<<<<<<<<<<
  * 
- *             if ((x[i] >= (_sensor_x - _sensor_dimention)) and (x[i] <= (_sensor_x + _sensor_dimention)) and (y[i] >= (_sensor_y - _sensor_dimention)) and (y[i] <= (_sensor_y + _sensor_dimention))):
+ *         if ((x[i] >= (_sensor_x - _sensor_dimention)) and (x[i] <= (_sensor_x + _sensor_dimention)) and (y[i] >= (_sensor_y - _sensor_dimention)) and (y[i] <= (_sensor_y + _sensor_dimention))):
  */
   __pyx_t_1 = PyObject_Length(__pyx_v__intensity); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 6, __pyx_L1_error)
   __pyx_t_2 = __pyx_t_1;
@@ -1380,9 +1411,9 @@ static PyObject *__pyx_pf_10cython_for_read_sensor(CYTHON_UNUSED PyObject *__pyx
     __pyx_v_i = __pyx_t_3;
 
     /* "cython_for.pyx":8
- *         for i in range(len(_intensity)):
+ *     for i in range(len(_intensity)):
  * 
- *             if ((x[i] >= (_sensor_x - _sensor_dimention)) and (x[i] <= (_sensor_x + _sensor_dimention)) and (y[i] >= (_sensor_y - _sensor_dimention)) and (y[i] <= (_sensor_y + _sensor_dimention))):             # <<<<<<<<<<<<<<
+ *         if ((x[i] >= (_sensor_x - _sensor_dimention)) and (x[i] <= (_sensor_x + _sensor_dimention)) and (y[i] >= (_sensor_y - _sensor_dimention)) and (y[i] <= (_sensor_y + _sensor_dimention))):             # <<<<<<<<<<<<<<
  * 
  *                 #for j in range(len(_intensity)):
  */
@@ -1444,7 +1475,7 @@ static PyObject *__pyx_pf_10cython_for_read_sensor(CYTHON_UNUSED PyObject *__pyx
       /* "cython_for.pyx":16
  *                         #_xy_reads.append(self._intensity[i])
  *                         #_pos_reads.append(i)
- *                 _sum_reads += _intensity[i]             # <<<<<<<<<<<<<<
+ *             _sum_reads += _intensity[i]             # <<<<<<<<<<<<<<
  * 
  *                         #print(self._sum_reads)
  */
@@ -1457,9 +1488,9 @@ static PyObject *__pyx_pf_10cython_for_read_sensor(CYTHON_UNUSED PyObject *__pyx
       __pyx_t_6 = 0;
 
       /* "cython_for.pyx":8
- *         for i in range(len(_intensity)):
+ *     for i in range(len(_intensity)):
  * 
- *             if ((x[i] >= (_sensor_x - _sensor_dimention)) and (x[i] <= (_sensor_x + _sensor_dimention)) and (y[i] >= (_sensor_y - _sensor_dimention)) and (y[i] <= (_sensor_y + _sensor_dimention))):             # <<<<<<<<<<<<<<
+ *         if ((x[i] >= (_sensor_x - _sensor_dimention)) and (x[i] <= (_sensor_x + _sensor_dimention)) and (y[i] >= (_sensor_y - _sensor_dimention)) and (y[i] <= (_sensor_y + _sensor_dimention))):             # <<<<<<<<<<<<<<
  * 
  *                 #for j in range(len(_intensity)):
  */
@@ -1469,9 +1500,9 @@ static PyObject *__pyx_pf_10cython_for_read_sensor(CYTHON_UNUSED PyObject *__pyx
   /* "cython_for.pyx":20
  *                         #print(self._sum_reads)
  * 
- *         mean_reads = _sum_reads/w             # <<<<<<<<<<<<<<
- *         w += 1
- *         return mean_reads
+ *     mean_reads = _sum_reads/w             # <<<<<<<<<<<<<<
+ *     w += 1
+ *     return mean_reads
  */
   __pyx_t_6 = __Pyx_PyNumber_Divide(__pyx_v__sum_reads, __pyx_v_w); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 20, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
@@ -1480,9 +1511,9 @@ static PyObject *__pyx_pf_10cython_for_read_sensor(CYTHON_UNUSED PyObject *__pyx
 
   /* "cython_for.pyx":21
  * 
- *         mean_reads = _sum_reads/w
- *         w += 1             # <<<<<<<<<<<<<<
- *         return mean_reads
+ *     mean_reads = _sum_reads/w
+ *     w += 1             # <<<<<<<<<<<<<<
+ *     return mean_reads
  * 
  */
   __pyx_t_6 = __Pyx_PyInt_AddObjC(__pyx_v_w, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 21, __pyx_L1_error)
@@ -1491,11 +1522,11 @@ static PyObject *__pyx_pf_10cython_for_read_sensor(CYTHON_UNUSED PyObject *__pyx
   __pyx_t_6 = 0;
 
   /* "cython_for.pyx":22
- *         mean_reads = _sum_reads/w
- *         w += 1
- *         return mean_reads             # <<<<<<<<<<<<<<
+ *     mean_reads = _sum_reads/w
+ *     w += 1
+ *     return mean_reads             # <<<<<<<<<<<<<<
  * 
- * 
+ * def read_pompy_sensor(dictionary,_sensor_x,_sensor_y,_sensor_dimention,_sum_reads):
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_mean_reads);
@@ -1506,8 +1537,8 @@ static PyObject *__pyx_pf_10cython_for_read_sensor(CYTHON_UNUSED PyObject *__pyx
  * import math
  * 
  * def read_sensor(x,y,_intensity,_sensor_x,_sensor_y,_sensor_dimention,_sum_reads):             # <<<<<<<<<<<<<<
- *         w = 1
- *         mean_reads = 0
+ *     w = 1
+ *     mean_reads = 0
  */
 
   /* function exit code */
@@ -1526,7 +1557,505 @@ static PyObject *__pyx_pf_10cython_for_read_sensor(CYTHON_UNUSED PyObject *__pyx
   return __pyx_r;
 }
 
-/* "cython_for.pyx":27
+/* "cython_for.pyx":24
+ *     return mean_reads
+ * 
+ * def read_pompy_sensor(dictionary,_sensor_x,_sensor_y,_sensor_dimention,_sum_reads):             # <<<<<<<<<<<<<<
+ *     _sum_reads = 0
+ *     mean_reads = 0
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_10cython_for_3read_pompy_sensor(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_10cython_for_3read_pompy_sensor = {"read_pompy_sensor", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_10cython_for_3read_pompy_sensor, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_10cython_for_3read_pompy_sensor(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_dictionary = 0;
+  PyObject *__pyx_v__sensor_x = 0;
+  PyObject *__pyx_v__sensor_y = 0;
+  PyObject *__pyx_v__sensor_dimention = 0;
+  PyObject *__pyx_v__sum_reads = 0;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("read_pompy_sensor (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_dictionary,&__pyx_n_s_sensor_x,&__pyx_n_s_sensor_y,&__pyx_n_s_sensor_dimention,&__pyx_n_s_sum_reads,0};
+    PyObject* values[5] = {0,0,0,0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+        CYTHON_FALLTHROUGH;
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        CYTHON_FALLTHROUGH;
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        CYTHON_FALLTHROUGH;
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_dictionary)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_sensor_x)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("read_pompy_sensor", 1, 5, 5, 1); __PYX_ERR(0, 24, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  2:
+        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_sensor_y)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("read_pompy_sensor", 1, 5, 5, 2); __PYX_ERR(0, 24, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  3:
+        if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_sensor_dimention)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("read_pompy_sensor", 1, 5, 5, 3); __PYX_ERR(0, 24, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  4:
+        if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_sum_reads)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("read_pompy_sensor", 1, 5, 5, 4); __PYX_ERR(0, 24, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "read_pompy_sensor") < 0)) __PYX_ERR(0, 24, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 5) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+      values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+      values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+    }
+    __pyx_v_dictionary = values[0];
+    __pyx_v__sensor_x = values[1];
+    __pyx_v__sensor_y = values[2];
+    __pyx_v__sensor_dimention = values[3];
+    __pyx_v__sum_reads = values[4];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("read_pompy_sensor", 1, 5, 5, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 24, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("cython_for.read_pompy_sensor", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_10cython_for_2read_pompy_sensor(__pyx_self, __pyx_v_dictionary, __pyx_v__sensor_x, __pyx_v__sensor_y, __pyx_v__sensor_dimention, __pyx_v__sum_reads);
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_10cython_for_2read_pompy_sensor(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_dictionary, PyObject *__pyx_v__sensor_x, PyObject *__pyx_v__sensor_y, PyObject *__pyx_v__sensor_dimention, PyObject *__pyx_v__sum_reads) {
+  PyObject *__pyx_v_mean_reads = NULL;
+  PyObject *__pyx_v_wind_angle = NULL;
+  PyObject *__pyx_v_w = NULL;
+  Py_ssize_t __pyx_v_i;
+  Py_ssize_t __pyx_v_a;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  Py_ssize_t __pyx_t_1;
+  Py_ssize_t __pyx_t_2;
+  Py_ssize_t __pyx_t_3;
+  int __pyx_t_4;
+  PyObject *__pyx_t_5 = NULL;
+  PyObject *__pyx_t_6 = NULL;
+  PyObject *__pyx_t_7 = NULL;
+  int __pyx_t_8;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("read_pompy_sensor", 0);
+  __Pyx_INCREF(__pyx_v__sum_reads);
+
+  /* "cython_for.pyx":25
+ * 
+ * def read_pompy_sensor(dictionary,_sensor_x,_sensor_y,_sensor_dimention,_sum_reads):
+ *     _sum_reads = 0             # <<<<<<<<<<<<<<
+ *     mean_reads = 0
+ *     wind_angle = 0
+ */
+  __Pyx_INCREF(__pyx_int_0);
+  __Pyx_DECREF_SET(__pyx_v__sum_reads, __pyx_int_0);
+
+  /* "cython_for.pyx":26
+ * def read_pompy_sensor(dictionary,_sensor_x,_sensor_y,_sensor_dimention,_sum_reads):
+ *     _sum_reads = 0
+ *     mean_reads = 0             # <<<<<<<<<<<<<<
+ *     wind_angle = 0
+ *     w = 0
+ */
+  __Pyx_INCREF(__pyx_int_0);
+  __pyx_v_mean_reads = __pyx_int_0;
+
+  /* "cython_for.pyx":27
+ *     _sum_reads = 0
+ *     mean_reads = 0
+ *     wind_angle = 0             # <<<<<<<<<<<<<<
+ *     w = 0
+ *     for i in range(len(dictionary)):
+ */
+  __Pyx_INCREF(__pyx_int_0);
+  __pyx_v_wind_angle = __pyx_int_0;
+
+  /* "cython_for.pyx":28
+ *     mean_reads = 0
+ *     wind_angle = 0
+ *     w = 0             # <<<<<<<<<<<<<<
+ *     for i in range(len(dictionary)):
+ *         if ((dictionary[i][0] >= (_sensor_x - _sensor_dimention)) and (dictionary[i][0] <= (_sensor_x + _sensor_dimention)) and (dictionary[i][1] >= (_sensor_y - _sensor_dimention)) and (dictionary[i][1] <= (_sensor_y + _sensor_dimention))):
+ */
+  __Pyx_INCREF(__pyx_int_0);
+  __pyx_v_w = __pyx_int_0;
+
+  /* "cython_for.pyx":29
+ *     wind_angle = 0
+ *     w = 0
+ *     for i in range(len(dictionary)):             # <<<<<<<<<<<<<<
+ *         if ((dictionary[i][0] >= (_sensor_x - _sensor_dimention)) and (dictionary[i][0] <= (_sensor_x + _sensor_dimention)) and (dictionary[i][1] >= (_sensor_y - _sensor_dimention)) and (dictionary[i][1] <= (_sensor_y + _sensor_dimention))):
+ *             w += 1
+ */
+  __pyx_t_1 = PyObject_Length(__pyx_v_dictionary); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 29, __pyx_L1_error)
+  __pyx_t_2 = __pyx_t_1;
+  for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
+    __pyx_v_i = __pyx_t_3;
+
+    /* "cython_for.pyx":30
+ *     w = 0
+ *     for i in range(len(dictionary)):
+ *         if ((dictionary[i][0] >= (_sensor_x - _sensor_dimention)) and (dictionary[i][0] <= (_sensor_x + _sensor_dimention)) and (dictionary[i][1] >= (_sensor_y - _sensor_dimention)) and (dictionary[i][1] <= (_sensor_y + _sensor_dimention))):             # <<<<<<<<<<<<<<
+ *             w += 1
+ *             _sum_reads += dictionary[i][2]
+ */
+    __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_dictionary, __pyx_v_i, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 30, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_5, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 30, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_5 = PyNumber_Subtract(__pyx_v__sensor_x, __pyx_v__sensor_dimention); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 30, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_7 = PyObject_RichCompare(__pyx_t_6, __pyx_t_5, Py_GE); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 30, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 30, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    if (__pyx_t_8) {
+    } else {
+      __pyx_t_4 = __pyx_t_8;
+      goto __pyx_L6_bool_binop_done;
+    }
+    __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_dictionary, __pyx_v_i, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 30, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_7, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 30, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __pyx_t_7 = PyNumber_Add(__pyx_v__sensor_x, __pyx_v__sensor_dimention); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 30, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_6 = PyObject_RichCompare(__pyx_t_5, __pyx_t_7, Py_LE); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 30, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 30, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    if (__pyx_t_8) {
+    } else {
+      __pyx_t_4 = __pyx_t_8;
+      goto __pyx_L6_bool_binop_done;
+    }
+    __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_dictionary, __pyx_v_i, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 30, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_7 = __Pyx_GetItemInt(__pyx_t_6, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 30, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __pyx_t_6 = PyNumber_Subtract(__pyx_v__sensor_y, __pyx_v__sensor_dimention); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 30, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_5 = PyObject_RichCompare(__pyx_t_7, __pyx_t_6, Py_GE); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 30, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 30, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    if (__pyx_t_8) {
+    } else {
+      __pyx_t_4 = __pyx_t_8;
+      goto __pyx_L6_bool_binop_done;
+    }
+    __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_dictionary, __pyx_v_i, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 30, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_5, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 30, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_5 = PyNumber_Add(__pyx_v__sensor_y, __pyx_v__sensor_dimention); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 30, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_7 = PyObject_RichCompare(__pyx_t_6, __pyx_t_5, Py_LE); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 30, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 30, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __pyx_t_4 = __pyx_t_8;
+    __pyx_L6_bool_binop_done:;
+    if (__pyx_t_4) {
+
+      /* "cython_for.pyx":31
+ *     for i in range(len(dictionary)):
+ *         if ((dictionary[i][0] >= (_sensor_x - _sensor_dimention)) and (dictionary[i][0] <= (_sensor_x + _sensor_dimention)) and (dictionary[i][1] >= (_sensor_y - _sensor_dimention)) and (dictionary[i][1] <= (_sensor_y + _sensor_dimention))):
+ *             w += 1             # <<<<<<<<<<<<<<
+ *             _sum_reads += dictionary[i][2]
+ *     if w == 0:
+ */
+      __pyx_t_7 = __Pyx_PyInt_AddObjC(__pyx_v_w, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 31, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_DECREF_SET(__pyx_v_w, __pyx_t_7);
+      __pyx_t_7 = 0;
+
+      /* "cython_for.pyx":32
+ *         if ((dictionary[i][0] >= (_sensor_x - _sensor_dimention)) and (dictionary[i][0] <= (_sensor_x + _sensor_dimention)) and (dictionary[i][1] >= (_sensor_y - _sensor_dimention)) and (dictionary[i][1] <= (_sensor_y + _sensor_dimention))):
+ *             w += 1
+ *             _sum_reads += dictionary[i][2]             # <<<<<<<<<<<<<<
+ *     if w == 0:
+ *         mean_reads = 0
+ */
+      __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_dictionary, __pyx_v_i, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 32, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_7, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 32, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __pyx_t_7 = PyNumber_InPlaceAdd(__pyx_v__sum_reads, __pyx_t_5); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 32, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_DECREF_SET(__pyx_v__sum_reads, __pyx_t_7);
+      __pyx_t_7 = 0;
+
+      /* "cython_for.pyx":30
+ *     w = 0
+ *     for i in range(len(dictionary)):
+ *         if ((dictionary[i][0] >= (_sensor_x - _sensor_dimention)) and (dictionary[i][0] <= (_sensor_x + _sensor_dimention)) and (dictionary[i][1] >= (_sensor_y - _sensor_dimention)) and (dictionary[i][1] <= (_sensor_y + _sensor_dimention))):             # <<<<<<<<<<<<<<
+ *             w += 1
+ *             _sum_reads += dictionary[i][2]
+ */
+    }
+  }
+
+  /* "cython_for.pyx":33
+ *             w += 1
+ *             _sum_reads += dictionary[i][2]
+ *     if w == 0:             # <<<<<<<<<<<<<<
+ *         mean_reads = 0
+ *     else:
+ */
+  __pyx_t_7 = __Pyx_PyInt_EqObjC(__pyx_v_w, __pyx_int_0, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 33, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 33, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  if (__pyx_t_4) {
+
+    /* "cython_for.pyx":34
+ *             _sum_reads += dictionary[i][2]
+ *     if w == 0:
+ *         mean_reads = 0             # <<<<<<<<<<<<<<
+ *     else:
+ *         mean_reads = _sum_reads/w
+ */
+    __Pyx_INCREF(__pyx_int_0);
+    __Pyx_DECREF_SET(__pyx_v_mean_reads, __pyx_int_0);
+
+    /* "cython_for.pyx":33
+ *             w += 1
+ *             _sum_reads += dictionary[i][2]
+ *     if w == 0:             # <<<<<<<<<<<<<<
+ *         mean_reads = 0
+ *     else:
+ */
+    goto __pyx_L10;
+  }
+
+  /* "cython_for.pyx":36
+ *         mean_reads = 0
+ *     else:
+ *         mean_reads = _sum_reads/w             # <<<<<<<<<<<<<<
+ * 
+ *     for a in range(len(dictionary)):
+ */
+  /*else*/ {
+    __pyx_t_7 = __Pyx_PyNumber_Divide(__pyx_v__sum_reads, __pyx_v_w); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 36, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __Pyx_DECREF_SET(__pyx_v_mean_reads, __pyx_t_7);
+    __pyx_t_7 = 0;
+  }
+  __pyx_L10:;
+
+  /* "cython_for.pyx":38
+ *         mean_reads = _sum_reads/w
+ * 
+ *     for a in range(len(dictionary)):             # <<<<<<<<<<<<<<
+ *         if ((dictionary[a][0] >= (_sensor_x - 0.05)) and (dictionary[a][0] <= (_sensor_x + 0.05)) and (dictionary[a][1] >= (_sensor_y - 0.05)) and (dictionary[a][1] <= (_sensor_y + 0.05))):
+ *             wind_angle = dictionary[a][3]
+ */
+  __pyx_t_1 = PyObject_Length(__pyx_v_dictionary); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 38, __pyx_L1_error)
+  __pyx_t_2 = __pyx_t_1;
+  for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
+    __pyx_v_a = __pyx_t_3;
+
+    /* "cython_for.pyx":39
+ * 
+ *     for a in range(len(dictionary)):
+ *         if ((dictionary[a][0] >= (_sensor_x - 0.05)) and (dictionary[a][0] <= (_sensor_x + 0.05)) and (dictionary[a][1] >= (_sensor_y - 0.05)) and (dictionary[a][1] <= (_sensor_y + 0.05))):             # <<<<<<<<<<<<<<
+ *             wind_angle = dictionary[a][3]
+ *     return mean_reads, wind_angle
+ */
+    __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_dictionary, __pyx_v_a, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 39, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_7, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 39, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __pyx_t_7 = __Pyx_PyFloat_SubtractObjC(__pyx_v__sensor_x, __pyx_float_0_05, 0.05, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 39, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_6 = PyObject_RichCompare(__pyx_t_5, __pyx_t_7, Py_GE); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 39, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 39, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    if (__pyx_t_8) {
+    } else {
+      __pyx_t_4 = __pyx_t_8;
+      goto __pyx_L14_bool_binop_done;
+    }
+    __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_dictionary, __pyx_v_a, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 39, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_7 = __Pyx_GetItemInt(__pyx_t_6, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 39, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __pyx_t_6 = __Pyx_PyFloat_AddObjC(__pyx_v__sensor_x, __pyx_float_0_05, 0.05, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 39, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_5 = PyObject_RichCompare(__pyx_t_7, __pyx_t_6, Py_LE); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 39, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 39, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    if (__pyx_t_8) {
+    } else {
+      __pyx_t_4 = __pyx_t_8;
+      goto __pyx_L14_bool_binop_done;
+    }
+    __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_dictionary, __pyx_v_a, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 39, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_5, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 39, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_5 = __Pyx_PyFloat_SubtractObjC(__pyx_v__sensor_y, __pyx_float_0_05, 0.05, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 39, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_7 = PyObject_RichCompare(__pyx_t_6, __pyx_t_5, Py_GE); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 39, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 39, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    if (__pyx_t_8) {
+    } else {
+      __pyx_t_4 = __pyx_t_8;
+      goto __pyx_L14_bool_binop_done;
+    }
+    __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_dictionary, __pyx_v_a, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 39, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_7, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 39, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __pyx_t_7 = __Pyx_PyFloat_AddObjC(__pyx_v__sensor_y, __pyx_float_0_05, 0.05, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 39, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_6 = PyObject_RichCompare(__pyx_t_5, __pyx_t_7, Py_LE); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 39, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 39, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __pyx_t_4 = __pyx_t_8;
+    __pyx_L14_bool_binop_done:;
+    if (__pyx_t_4) {
+
+      /* "cython_for.pyx":40
+ *     for a in range(len(dictionary)):
+ *         if ((dictionary[a][0] >= (_sensor_x - 0.05)) and (dictionary[a][0] <= (_sensor_x + 0.05)) and (dictionary[a][1] >= (_sensor_y - 0.05)) and (dictionary[a][1] <= (_sensor_y + 0.05))):
+ *             wind_angle = dictionary[a][3]             # <<<<<<<<<<<<<<
+ *     return mean_reads, wind_angle
+ * 
+ */
+      __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_dictionary, __pyx_v_a, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 40, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __pyx_t_7 = __Pyx_GetItemInt(__pyx_t_6, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 40, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_DECREF_SET(__pyx_v_wind_angle, __pyx_t_7);
+      __pyx_t_7 = 0;
+
+      /* "cython_for.pyx":39
+ * 
+ *     for a in range(len(dictionary)):
+ *         if ((dictionary[a][0] >= (_sensor_x - 0.05)) and (dictionary[a][0] <= (_sensor_x + 0.05)) and (dictionary[a][1] >= (_sensor_y - 0.05)) and (dictionary[a][1] <= (_sensor_y + 0.05))):             # <<<<<<<<<<<<<<
+ *             wind_angle = dictionary[a][3]
+ *     return mean_reads, wind_angle
+ */
+    }
+  }
+
+  /* "cython_for.pyx":41
+ *         if ((dictionary[a][0] >= (_sensor_x - 0.05)) and (dictionary[a][0] <= (_sensor_x + 0.05)) and (dictionary[a][1] >= (_sensor_y - 0.05)) and (dictionary[a][1] <= (_sensor_y + 0.05))):
+ *             wind_angle = dictionary[a][3]
+ *     return mean_reads, wind_angle             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __Pyx_INCREF(__pyx_v_mean_reads);
+  __Pyx_GIVEREF(__pyx_v_mean_reads);
+  PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_v_mean_reads);
+  __Pyx_INCREF(__pyx_v_wind_angle);
+  __Pyx_GIVEREF(__pyx_v_wind_angle);
+  PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_v_wind_angle);
+  __pyx_r = __pyx_t_7;
+  __pyx_t_7 = 0;
+  goto __pyx_L0;
+
+  /* "cython_for.pyx":24
+ *     return mean_reads
+ * 
+ * def read_pompy_sensor(dictionary,_sensor_x,_sensor_y,_sensor_dimention,_sum_reads):             # <<<<<<<<<<<<<<
+ *     _sum_reads = 0
+ *     mean_reads = 0
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_XDECREF(__pyx_t_7);
+  __Pyx_AddTraceback("cython_for.read_pompy_sensor", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_mean_reads);
+  __Pyx_XDECREF(__pyx_v_wind_angle);
+  __Pyx_XDECREF(__pyx_v_w);
+  __Pyx_XDECREF(__pyx_v__sum_reads);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "cython_for.pyx":46
  * 
  * ## Alto custo computacional
  * def cython_distance(_points,_intensity,_sensor_x,_sensor_y,_sensor_dimention,_sum_reads):             # <<<<<<<<<<<<<<
@@ -1535,9 +2064,9 @@ static PyObject *__pyx_pf_10cython_for_read_sensor(CYTHON_UNUSED PyObject *__pyx
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10cython_for_3cython_distance(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_10cython_for_3cython_distance = {"cython_distance", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_10cython_for_3cython_distance, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_10cython_for_3cython_distance(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_10cython_for_5cython_distance(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_10cython_for_5cython_distance = {"cython_distance", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_10cython_for_5cython_distance, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_10cython_for_5cython_distance(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v__points = 0;
   PyObject *__pyx_v__intensity = 0;
   PyObject *__pyx_v__sensor_x = 0;
@@ -1581,35 +2110,35 @@ static PyObject *__pyx_pw_10cython_for_3cython_distance(PyObject *__pyx_self, Py
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_intensity)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("cython_distance", 1, 6, 6, 1); __PYX_ERR(0, 27, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("cython_distance", 1, 6, 6, 1); __PYX_ERR(0, 46, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_sensor_x)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("cython_distance", 1, 6, 6, 2); __PYX_ERR(0, 27, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("cython_distance", 1, 6, 6, 2); __PYX_ERR(0, 46, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_sensor_y)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("cython_distance", 1, 6, 6, 3); __PYX_ERR(0, 27, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("cython_distance", 1, 6, 6, 3); __PYX_ERR(0, 46, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  4:
         if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_sensor_dimention)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("cython_distance", 1, 6, 6, 4); __PYX_ERR(0, 27, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("cython_distance", 1, 6, 6, 4); __PYX_ERR(0, 46, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  5:
         if (likely((values[5] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_sum_reads)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("cython_distance", 1, 6, 6, 5); __PYX_ERR(0, 27, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("cython_distance", 1, 6, 6, 5); __PYX_ERR(0, 46, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "cython_distance") < 0)) __PYX_ERR(0, 27, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "cython_distance") < 0)) __PYX_ERR(0, 46, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 6) {
       goto __pyx_L5_argtuple_error;
@@ -1630,20 +2159,20 @@ static PyObject *__pyx_pw_10cython_for_3cython_distance(PyObject *__pyx_self, Py
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("cython_distance", 1, 6, 6, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 27, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("cython_distance", 1, 6, 6, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 46, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("cython_for.cython_distance", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_10cython_for_2cython_distance(__pyx_self, __pyx_v__points, __pyx_v__intensity, __pyx_v__sensor_x, __pyx_v__sensor_y, __pyx_v__sensor_dimention, __pyx_v__sum_reads);
+  __pyx_r = __pyx_pf_10cython_for_4cython_distance(__pyx_self, __pyx_v__points, __pyx_v__intensity, __pyx_v__sensor_x, __pyx_v__sensor_y, __pyx_v__sensor_dimention, __pyx_v__sum_reads);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10cython_for_2cython_distance(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v__points, PyObject *__pyx_v__intensity, PyObject *__pyx_v__sensor_x, PyObject *__pyx_v__sensor_y, PyObject *__pyx_v__sensor_dimention, PyObject *__pyx_v__sum_reads) {
+static PyObject *__pyx_pf_10cython_for_4cython_distance(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v__points, PyObject *__pyx_v__intensity, PyObject *__pyx_v__sensor_x, PyObject *__pyx_v__sensor_y, PyObject *__pyx_v__sensor_dimention, PyObject *__pyx_v__sum_reads) {
   Py_ssize_t __pyx_v_i;
   PyObject *__pyx_v_dist = NULL;
   PyObject *__pyx_r = NULL;
@@ -1667,41 +2196,41 @@ static PyObject *__pyx_pf_10cython_for_2cython_distance(CYTHON_UNUSED PyObject *
   __Pyx_RefNannySetupContext("cython_distance", 0);
   __Pyx_INCREF(__pyx_v__sum_reads);
 
-  /* "cython_for.pyx":29
+  /* "cython_for.pyx":48
  * def cython_distance(_points,_intensity,_sensor_x,_sensor_y,_sensor_dimention,_sum_reads):
  * 
  *     for i in range(len(_points)):             # <<<<<<<<<<<<<<
  *         dist = math.sqrt(math.pow(_points[i].x - _sensor_x, 2) + math.pow(_points[i].y - _sensor_y, 2))
  *         if (dist < (_sensor_dimention*2)):
  */
-  __pyx_t_1 = PyObject_Length(__pyx_v__points); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 29, __pyx_L1_error)
+  __pyx_t_1 = PyObject_Length(__pyx_v__points); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 48, __pyx_L1_error)
   __pyx_t_2 = __pyx_t_1;
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "cython_for.pyx":30
+    /* "cython_for.pyx":49
  * 
  *     for i in range(len(_points)):
  *         dist = math.sqrt(math.pow(_points[i].x - _sensor_x, 2) + math.pow(_points[i].y - _sensor_y, 2))             # <<<<<<<<<<<<<<
  *         if (dist < (_sensor_dimention*2)):
  *             _sum_reads += _intensity[i]
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_math); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 30, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_math); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 49, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_sqrt); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 30, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_sqrt); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 49, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_math); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 30, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_math); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 49, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_pow); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 30, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_pow); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 49, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_7 = __Pyx_GetItemInt(__pyx_v__points, __pyx_v_i, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 30, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_GetItemInt(__pyx_v__points, __pyx_v_i, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 49, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_x); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 30, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_x); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 49, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_7 = PyNumber_Subtract(__pyx_t_9, __pyx_v__sensor_x); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 30, __pyx_L1_error)
+    __pyx_t_7 = PyNumber_Subtract(__pyx_t_9, __pyx_v__sensor_x); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 49, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     __pyx_t_9 = NULL;
@@ -1719,7 +2248,7 @@ static PyObject *__pyx_pf_10cython_for_2cython_distance(CYTHON_UNUSED PyObject *
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_8)) {
       PyObject *__pyx_temp[3] = {__pyx_t_9, __pyx_t_7, __pyx_int_2};
-      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 30, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 49, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -1728,14 +2257,14 @@ static PyObject *__pyx_pf_10cython_for_2cython_distance(CYTHON_UNUSED PyObject *
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_8)) {
       PyObject *__pyx_temp[3] = {__pyx_t_9, __pyx_t_7, __pyx_int_2};
-      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 30, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 49, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     } else
     #endif
     {
-      __pyx_t_11 = PyTuple_New(2+__pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 30, __pyx_L1_error)
+      __pyx_t_11 = PyTuple_New(2+__pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 49, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_11);
       if (__pyx_t_9) {
         __Pyx_GIVEREF(__pyx_t_9); PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_9); __pyx_t_9 = NULL;
@@ -1746,22 +2275,22 @@ static PyObject *__pyx_pf_10cython_for_2cython_distance(CYTHON_UNUSED PyObject *
       __Pyx_GIVEREF(__pyx_int_2);
       PyTuple_SET_ITEM(__pyx_t_11, 1+__pyx_t_10, __pyx_int_2);
       __pyx_t_7 = 0;
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_11, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 30, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_11, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 49, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
     }
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __Pyx_GetModuleGlobalName(__pyx_t_11, __pyx_n_s_math); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 30, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_11, __pyx_n_s_math); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 49, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_11, __pyx_n_s_pow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 30, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_11, __pyx_n_s_pow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 49, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-    __pyx_t_11 = __Pyx_GetItemInt(__pyx_v__points, __pyx_v_i, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 30, __pyx_L1_error)
+    __pyx_t_11 = __Pyx_GetItemInt(__pyx_v__points, __pyx_v_i, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 49, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
-    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_11, __pyx_n_s_y); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 30, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_11, __pyx_n_s_y); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 49, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-    __pyx_t_11 = PyNumber_Subtract(__pyx_t_9, __pyx_v__sensor_y); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 30, __pyx_L1_error)
+    __pyx_t_11 = PyNumber_Subtract(__pyx_t_9, __pyx_v__sensor_y); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 49, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     __pyx_t_9 = NULL;
@@ -1779,7 +2308,7 @@ static PyObject *__pyx_pf_10cython_for_2cython_distance(CYTHON_UNUSED PyObject *
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_7)) {
       PyObject *__pyx_temp[3] = {__pyx_t_9, __pyx_t_11, __pyx_int_2};
-      __pyx_t_8 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 30, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 49, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
@@ -1788,14 +2317,14 @@ static PyObject *__pyx_pf_10cython_for_2cython_distance(CYTHON_UNUSED PyObject *
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_7)) {
       PyObject *__pyx_temp[3] = {__pyx_t_9, __pyx_t_11, __pyx_int_2};
-      __pyx_t_8 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 30, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 49, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
     } else
     #endif
     {
-      __pyx_t_12 = PyTuple_New(2+__pyx_t_10); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 30, __pyx_L1_error)
+      __pyx_t_12 = PyTuple_New(2+__pyx_t_10); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 49, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_12);
       if (__pyx_t_9) {
         __Pyx_GIVEREF(__pyx_t_9); PyTuple_SET_ITEM(__pyx_t_12, 0, __pyx_t_9); __pyx_t_9 = NULL;
@@ -1806,12 +2335,12 @@ static PyObject *__pyx_pf_10cython_for_2cython_distance(CYTHON_UNUSED PyObject *
       __Pyx_GIVEREF(__pyx_int_2);
       PyTuple_SET_ITEM(__pyx_t_12, 1+__pyx_t_10, __pyx_int_2);
       __pyx_t_11 = 0;
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_12, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 30, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_12, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 49, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
     }
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_7 = PyNumber_Add(__pyx_t_5, __pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 30, __pyx_L1_error)
+    __pyx_t_7 = PyNumber_Add(__pyx_t_5, __pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 49, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -1828,42 +2357,42 @@ static PyObject *__pyx_pf_10cython_for_2cython_distance(CYTHON_UNUSED PyObject *
     __pyx_t_4 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_8, __pyx_t_7) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_7);
     __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 30, __pyx_L1_error)
+    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 49, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_XDECREF_SET(__pyx_v_dist, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "cython_for.pyx":31
+    /* "cython_for.pyx":50
  *     for i in range(len(_points)):
  *         dist = math.sqrt(math.pow(_points[i].x - _sensor_x, 2) + math.pow(_points[i].y - _sensor_y, 2))
  *         if (dist < (_sensor_dimention*2)):             # <<<<<<<<<<<<<<
  *             _sum_reads += _intensity[i]
  *     return _sum_reads
  */
-    __pyx_t_4 = PyNumber_Multiply(__pyx_v__sensor_dimention, __pyx_int_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 31, __pyx_L1_error)
+    __pyx_t_4 = PyNumber_Multiply(__pyx_v__sensor_dimention, __pyx_int_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 50, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_6 = PyObject_RichCompare(__pyx_v_dist, __pyx_t_4, Py_LT); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 31, __pyx_L1_error)
+    __pyx_t_6 = PyObject_RichCompare(__pyx_v_dist, __pyx_t_4, Py_LT); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 50, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_13 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_13 < 0)) __PYX_ERR(0, 31, __pyx_L1_error)
+    __pyx_t_13 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_13 < 0)) __PYX_ERR(0, 50, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     if (__pyx_t_13) {
 
-      /* "cython_for.pyx":32
+      /* "cython_for.pyx":51
  *         dist = math.sqrt(math.pow(_points[i].x - _sensor_x, 2) + math.pow(_points[i].y - _sensor_y, 2))
  *         if (dist < (_sensor_dimention*2)):
  *             _sum_reads += _intensity[i]             # <<<<<<<<<<<<<<
  *     return _sum_reads
  */
-      __pyx_t_6 = __Pyx_GetItemInt(__pyx_v__intensity, __pyx_v_i, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 32, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_GetItemInt(__pyx_v__intensity, __pyx_v_i, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 51, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_4 = PyNumber_InPlaceAdd(__pyx_v__sum_reads, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 32, __pyx_L1_error)
+      __pyx_t_4 = PyNumber_InPlaceAdd(__pyx_v__sum_reads, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 51, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF_SET(__pyx_v__sum_reads, __pyx_t_4);
       __pyx_t_4 = 0;
 
-      /* "cython_for.pyx":31
+      /* "cython_for.pyx":50
  *     for i in range(len(_points)):
  *         dist = math.sqrt(math.pow(_points[i].x - _sensor_x, 2) + math.pow(_points[i].y - _sensor_y, 2))
  *         if (dist < (_sensor_dimention*2)):             # <<<<<<<<<<<<<<
@@ -1873,7 +2402,7 @@ static PyObject *__pyx_pf_10cython_for_2cython_distance(CYTHON_UNUSED PyObject *
     }
   }
 
-  /* "cython_for.pyx":33
+  /* "cython_for.pyx":52
  *         if (dist < (_sensor_dimention*2)):
  *             _sum_reads += _intensity[i]
  *     return _sum_reads             # <<<<<<<<<<<<<<
@@ -1883,7 +2412,7 @@ static PyObject *__pyx_pf_10cython_for_2cython_distance(CYTHON_UNUSED PyObject *
   __pyx_r = __pyx_v__sum_reads;
   goto __pyx_L0;
 
-  /* "cython_for.pyx":27
+  /* "cython_for.pyx":46
  * 
  * ## Alto custo computacional
  * def cython_distance(_points,_intensity,_sensor_x,_sensor_y,_sensor_dimention,_sum_reads):             # <<<<<<<<<<<<<<
@@ -1957,10 +2486,12 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
+  {&__pyx_n_s_a, __pyx_k_a, sizeof(__pyx_k_a), 0, 0, 1, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {&__pyx_n_s_cython_distance, __pyx_k_cython_distance, sizeof(__pyx_k_cython_distance), 0, 0, 1, 1},
   {&__pyx_n_s_cython_for, __pyx_k_cython_for, sizeof(__pyx_k_cython_for), 0, 0, 1, 1},
   {&__pyx_kp_s_cython_for_pyx, __pyx_k_cython_for_pyx, sizeof(__pyx_k_cython_for_pyx), 0, 0, 1, 0},
+  {&__pyx_n_s_dictionary, __pyx_k_dictionary, sizeof(__pyx_k_dictionary), 0, 0, 1, 1},
   {&__pyx_n_s_dist, __pyx_k_dist, sizeof(__pyx_k_dist), 0, 0, 1, 1},
   {&__pyx_n_s_i, __pyx_k_i, sizeof(__pyx_k_i), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
@@ -1972,6 +2503,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_points, __pyx_k_points, sizeof(__pyx_k_points), 0, 0, 1, 1},
   {&__pyx_n_s_pow, __pyx_k_pow, sizeof(__pyx_k_pow), 0, 0, 1, 1},
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
+  {&__pyx_n_s_read_pompy_sensor, __pyx_k_read_pompy_sensor, sizeof(__pyx_k_read_pompy_sensor), 0, 0, 1, 1},
   {&__pyx_n_s_read_sensor, __pyx_k_read_sensor, sizeof(__pyx_k_read_sensor), 0, 0, 1, 1},
   {&__pyx_n_s_sensor_dimention, __pyx_k_sensor_dimention, sizeof(__pyx_k_sensor_dimention), 0, 0, 1, 1},
   {&__pyx_n_s_sensor_x, __pyx_k_sensor_x, sizeof(__pyx_k_sensor_x), 0, 0, 1, 1},
@@ -1980,6 +2512,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_sum_reads, __pyx_k_sum_reads, sizeof(__pyx_k_sum_reads), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_w, __pyx_k_w, sizeof(__pyx_k_w), 0, 0, 1, 1},
+  {&__pyx_n_s_wind_angle, __pyx_k_wind_angle, sizeof(__pyx_k_wind_angle), 0, 0, 1, 1},
   {&__pyx_n_s_x, __pyx_k_x, sizeof(__pyx_k_x), 0, 0, 1, 1},
   {&__pyx_n_s_y, __pyx_k_y, sizeof(__pyx_k_y), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
@@ -1999,25 +2532,37 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * import math
  * 
  * def read_sensor(x,y,_intensity,_sensor_x,_sensor_y,_sensor_dimention,_sum_reads):             # <<<<<<<<<<<<<<
- *         w = 1
- *         mean_reads = 0
+ *     w = 1
+ *     mean_reads = 0
  */
   __pyx_tuple_ = PyTuple_Pack(10, __pyx_n_s_x, __pyx_n_s_y, __pyx_n_s_intensity, __pyx_n_s_sensor_x, __pyx_n_s_sensor_y, __pyx_n_s_sensor_dimention, __pyx_n_s_sum_reads, __pyx_n_s_w, __pyx_n_s_mean_reads, __pyx_n_s_i); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
   __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(7, 0, 10, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_cython_for_pyx, __pyx_n_s_read_sensor, 3, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) __PYX_ERR(0, 3, __pyx_L1_error)
 
-  /* "cython_for.pyx":27
+  /* "cython_for.pyx":24
+ *     return mean_reads
+ * 
+ * def read_pompy_sensor(dictionary,_sensor_x,_sensor_y,_sensor_dimention,_sum_reads):             # <<<<<<<<<<<<<<
+ *     _sum_reads = 0
+ *     mean_reads = 0
+ */
+  __pyx_tuple__3 = PyTuple_Pack(10, __pyx_n_s_dictionary, __pyx_n_s_sensor_x, __pyx_n_s_sensor_y, __pyx_n_s_sensor_dimention, __pyx_n_s_sum_reads, __pyx_n_s_mean_reads, __pyx_n_s_wind_angle, __pyx_n_s_w, __pyx_n_s_i, __pyx_n_s_a); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 24, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__3);
+  __Pyx_GIVEREF(__pyx_tuple__3);
+  __pyx_codeobj__4 = (PyObject*)__Pyx_PyCode_New(5, 0, 10, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__3, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_cython_for_pyx, __pyx_n_s_read_pompy_sensor, 24, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__4)) __PYX_ERR(0, 24, __pyx_L1_error)
+
+  /* "cython_for.pyx":46
  * 
  * ## Alto custo computacional
  * def cython_distance(_points,_intensity,_sensor_x,_sensor_y,_sensor_dimention,_sum_reads):             # <<<<<<<<<<<<<<
  * 
  *     for i in range(len(_points)):
  */
-  __pyx_tuple__3 = PyTuple_Pack(8, __pyx_n_s_points, __pyx_n_s_intensity, __pyx_n_s_sensor_x, __pyx_n_s_sensor_y, __pyx_n_s_sensor_dimention, __pyx_n_s_sum_reads, __pyx_n_s_i, __pyx_n_s_dist); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 27, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__3);
-  __Pyx_GIVEREF(__pyx_tuple__3);
-  __pyx_codeobj__4 = (PyObject*)__Pyx_PyCode_New(6, 0, 8, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__3, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_cython_for_pyx, __pyx_n_s_cython_distance, 27, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__4)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __pyx_tuple__5 = PyTuple_Pack(8, __pyx_n_s_points, __pyx_n_s_intensity, __pyx_n_s_sensor_x, __pyx_n_s_sensor_y, __pyx_n_s_sensor_dimention, __pyx_n_s_sum_reads, __pyx_n_s_i, __pyx_n_s_dist); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 46, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__5);
+  __Pyx_GIVEREF(__pyx_tuple__5);
+  __pyx_codeobj__6 = (PyObject*)__Pyx_PyCode_New(6, 0, 8, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__5, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_cython_for_pyx, __pyx_n_s_cython_distance, 46, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__6)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -2027,6 +2572,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
 
 static CYTHON_SMALL_CODE int __Pyx_InitGlobals(void) {
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  __pyx_float_0_05 = PyFloat_FromDouble(0.05); if (unlikely(!__pyx_float_0_05)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_0 = PyInt_FromLong(0); if (unlikely(!__pyx_int_0)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_1 = PyInt_FromLong(1); if (unlikely(!__pyx_int_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_2 = PyInt_FromLong(2); if (unlikely(!__pyx_int_2)) __PYX_ERR(0, 1, __pyx_L1_error)
@@ -2315,24 +2861,36 @@ if (!__Pyx_RefNanny) {
  * import math
  * 
  * def read_sensor(x,y,_intensity,_sensor_x,_sensor_y,_sensor_dimention,_sum_reads):             # <<<<<<<<<<<<<<
- *         w = 1
- *         mean_reads = 0
+ *     w = 1
+ *     mean_reads = 0
  */
   __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_10cython_for_1read_sensor, NULL, __pyx_n_s_cython_for); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_read_sensor, __pyx_t_1) < 0) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "cython_for.pyx":27
+  /* "cython_for.pyx":24
+ *     return mean_reads
+ * 
+ * def read_pompy_sensor(dictionary,_sensor_x,_sensor_y,_sensor_dimention,_sum_reads):             # <<<<<<<<<<<<<<
+ *     _sum_reads = 0
+ *     mean_reads = 0
+ */
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_10cython_for_3read_pompy_sensor, NULL, __pyx_n_s_cython_for); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 24, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_read_pompy_sensor, __pyx_t_1) < 0) __PYX_ERR(0, 24, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "cython_for.pyx":46
  * 
  * ## Alto custo computacional
  * def cython_distance(_points,_intensity,_sensor_x,_sensor_y,_sensor_dimention,_sum_reads):             # <<<<<<<<<<<<<<
  * 
  *     for i in range(len(_points)):
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_10cython_for_3cython_distance, NULL, __pyx_n_s_cython_for); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_10cython_for_5cython_distance, NULL, __pyx_n_s_cython_for); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_cython_distance, __pyx_t_1) < 0) __PYX_ERR(0, 27, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_cython_distance, __pyx_t_1) < 0) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "cython_for.pyx":1
@@ -2768,8 +3326,229 @@ static PyObject* __Pyx_PyInt_AddObjC(PyObject *op1, PyObject *op2, CYTHON_UNUSED
 }
 #endif
 
+/* PyIntCompare */
+static CYTHON_INLINE PyObject* __Pyx_PyInt_EqObjC(PyObject *op1, PyObject *op2, CYTHON_UNUSED long intval, CYTHON_UNUSED long inplace) {
+    if (op1 == op2) {
+        Py_RETURN_TRUE;
+    }
+    #if PY_MAJOR_VERSION < 3
+    if (likely(PyInt_CheckExact(op1))) {
+        const long b = intval;
+        long a = PyInt_AS_LONG(op1);
+        if (a == b) Py_RETURN_TRUE; else Py_RETURN_FALSE;
+    }
+    #endif
+    #if CYTHON_USE_PYLONG_INTERNALS
+    if (likely(PyLong_CheckExact(op1))) {
+        int unequal;
+        unsigned long uintval;
+        Py_ssize_t size = Py_SIZE(op1);
+        const digit* digits = ((PyLongObject*)op1)->ob_digit;
+        if (intval == 0) {
+            if (size == 0) Py_RETURN_TRUE; else Py_RETURN_FALSE;
+        } else if (intval < 0) {
+            if (size >= 0)
+                Py_RETURN_FALSE;
+            intval = -intval;
+            size = -size;
+        } else {
+            if (size <= 0)
+                Py_RETURN_FALSE;
+        }
+        uintval = (unsigned long) intval;
+#if PyLong_SHIFT * 4 < SIZEOF_LONG*8
+        if (uintval >> (PyLong_SHIFT * 4)) {
+            unequal = (size != 5) || (digits[0] != (uintval & (unsigned long) PyLong_MASK))
+                 | (digits[1] != ((uintval >> (1 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK)) | (digits[2] != ((uintval >> (2 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK)) | (digits[3] != ((uintval >> (3 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK)) | (digits[4] != ((uintval >> (4 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK));
+        } else
+#endif
+#if PyLong_SHIFT * 3 < SIZEOF_LONG*8
+        if (uintval >> (PyLong_SHIFT * 3)) {
+            unequal = (size != 4) || (digits[0] != (uintval & (unsigned long) PyLong_MASK))
+                 | (digits[1] != ((uintval >> (1 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK)) | (digits[2] != ((uintval >> (2 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK)) | (digits[3] != ((uintval >> (3 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK));
+        } else
+#endif
+#if PyLong_SHIFT * 2 < SIZEOF_LONG*8
+        if (uintval >> (PyLong_SHIFT * 2)) {
+            unequal = (size != 3) || (digits[0] != (uintval & (unsigned long) PyLong_MASK))
+                 | (digits[1] != ((uintval >> (1 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK)) | (digits[2] != ((uintval >> (2 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK));
+        } else
+#endif
+#if PyLong_SHIFT * 1 < SIZEOF_LONG*8
+        if (uintval >> (PyLong_SHIFT * 1)) {
+            unequal = (size != 2) || (digits[0] != (uintval & (unsigned long) PyLong_MASK))
+                 | (digits[1] != ((uintval >> (1 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK));
+        } else
+#endif
+            unequal = (size != 1) || (((unsigned long) digits[0]) != (uintval & (unsigned long) PyLong_MASK));
+        if (unequal == 0) Py_RETURN_TRUE; else Py_RETURN_FALSE;
+    }
+    #endif
+    if (PyFloat_CheckExact(op1)) {
+        const long b = intval;
+        double a = PyFloat_AS_DOUBLE(op1);
+        if ((double)a == (double)b) Py_RETURN_TRUE; else Py_RETURN_FALSE;
+    }
+    return (
+        PyObject_RichCompare(op1, op2, Py_EQ));
+}
+
+/* PyFloatBinop */
+#if !CYTHON_COMPILING_IN_PYPY
+static PyObject* __Pyx_PyFloat_SubtractObjC(PyObject *op1, PyObject *op2, double floatval, int inplace, int zerodivision_check) {
+    const double b = floatval;
+    double a, result;
+    (void)inplace;
+    (void)zerodivision_check;
+    if (likely(PyFloat_CheckExact(op1))) {
+        a = PyFloat_AS_DOUBLE(op1);
+        
+    } else
+    #if PY_MAJOR_VERSION < 3
+    if (likely(PyInt_CheckExact(op1))) {
+        a = (double) PyInt_AS_LONG(op1);
+        
+    } else
+    #endif
+    if (likely(PyLong_CheckExact(op1))) {
+        #if CYTHON_USE_PYLONG_INTERNALS
+        const digit* digits = ((PyLongObject*)op1)->ob_digit;
+        const Py_ssize_t size = Py_SIZE(op1);
+        switch (size) {
+            case  0: a = 0.0; break;
+            case -1: a = -(double) digits[0]; break;
+            case  1: a = (double) digits[0]; break;
+            case -2:
+            case 2:
+                if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT && ((8 * sizeof(unsigned long) < 53) || (1 * PyLong_SHIFT < 53))) {
+                    a = (double) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                    if ((8 * sizeof(unsigned long) < 53) || (2 * PyLong_SHIFT < 53) || (a < (double) ((PY_LONG_LONG)1 << 53))) {
+                        if (size == -2)
+                            a = -a;
+                        break;
+                    }
+                }
+                CYTHON_FALLTHROUGH;
+            case -3:
+            case 3:
+                if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT && ((8 * sizeof(unsigned long) < 53) || (2 * PyLong_SHIFT < 53))) {
+                    a = (double) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                    if ((8 * sizeof(unsigned long) < 53) || (3 * PyLong_SHIFT < 53) || (a < (double) ((PY_LONG_LONG)1 << 53))) {
+                        if (size == -3)
+                            a = -a;
+                        break;
+                    }
+                }
+                CYTHON_FALLTHROUGH;
+            case -4:
+            case 4:
+                if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT && ((8 * sizeof(unsigned long) < 53) || (3 * PyLong_SHIFT < 53))) {
+                    a = (double) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                    if ((8 * sizeof(unsigned long) < 53) || (4 * PyLong_SHIFT < 53) || (a < (double) ((PY_LONG_LONG)1 << 53))) {
+                        if (size == -4)
+                            a = -a;
+                        break;
+                    }
+                }
+                CYTHON_FALLTHROUGH;
+            default:
+        #else
+        {
+        #endif
+            a = PyLong_AsDouble(op1);
+            if (unlikely(a == -1.0 && PyErr_Occurred())) return NULL;
+            
+        }
+    } else {
+        return (inplace ? PyNumber_InPlaceSubtract : PyNumber_Subtract)(op1, op2);
+    }
+        
+        PyFPE_START_PROTECT("subtract", return NULL)
+        result = a - b;
+        PyFPE_END_PROTECT(result)
+        return PyFloat_FromDouble(result);
+}
+#endif
+
+/* PyFloatBinop */
+  #if !CYTHON_COMPILING_IN_PYPY
+static PyObject* __Pyx_PyFloat_AddObjC(PyObject *op1, PyObject *op2, double floatval, int inplace, int zerodivision_check) {
+    const double b = floatval;
+    double a, result;
+    (void)inplace;
+    (void)zerodivision_check;
+    if (likely(PyFloat_CheckExact(op1))) {
+        a = PyFloat_AS_DOUBLE(op1);
+        
+    } else
+    #if PY_MAJOR_VERSION < 3
+    if (likely(PyInt_CheckExact(op1))) {
+        a = (double) PyInt_AS_LONG(op1);
+        
+    } else
+    #endif
+    if (likely(PyLong_CheckExact(op1))) {
+        #if CYTHON_USE_PYLONG_INTERNALS
+        const digit* digits = ((PyLongObject*)op1)->ob_digit;
+        const Py_ssize_t size = Py_SIZE(op1);
+        switch (size) {
+            case  0: a = 0.0; break;
+            case -1: a = -(double) digits[0]; break;
+            case  1: a = (double) digits[0]; break;
+            case -2:
+            case 2:
+                if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT && ((8 * sizeof(unsigned long) < 53) || (1 * PyLong_SHIFT < 53))) {
+                    a = (double) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                    if ((8 * sizeof(unsigned long) < 53) || (2 * PyLong_SHIFT < 53) || (a < (double) ((PY_LONG_LONG)1 << 53))) {
+                        if (size == -2)
+                            a = -a;
+                        break;
+                    }
+                }
+                CYTHON_FALLTHROUGH;
+            case -3:
+            case 3:
+                if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT && ((8 * sizeof(unsigned long) < 53) || (2 * PyLong_SHIFT < 53))) {
+                    a = (double) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                    if ((8 * sizeof(unsigned long) < 53) || (3 * PyLong_SHIFT < 53) || (a < (double) ((PY_LONG_LONG)1 << 53))) {
+                        if (size == -3)
+                            a = -a;
+                        break;
+                    }
+                }
+                CYTHON_FALLTHROUGH;
+            case -4:
+            case 4:
+                if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT && ((8 * sizeof(unsigned long) < 53) || (3 * PyLong_SHIFT < 53))) {
+                    a = (double) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                    if ((8 * sizeof(unsigned long) < 53) || (4 * PyLong_SHIFT < 53) || (a < (double) ((PY_LONG_LONG)1 << 53))) {
+                        if (size == -4)
+                            a = -a;
+                        break;
+                    }
+                }
+                CYTHON_FALLTHROUGH;
+            default:
+        #else
+        {
+        #endif
+            a = PyLong_AsDouble(op1);
+            if (unlikely(a == -1.0 && PyErr_Occurred())) return NULL;
+            
+        }
+    } else {
+        return (inplace ? PyNumber_InPlaceAdd : PyNumber_Add)(op1, op2);
+    }
+        
+        PyFPE_START_PROTECT("add", return NULL)
+        result = a + b;
+        PyFPE_END_PROTECT(result)
+        return PyFloat_FromDouble(result);
+}
+#endif
+
 /* PyDictVersioning */
-#if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_TYPE_SLOTS
+    #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_TYPE_SLOTS
 static CYTHON_INLINE PY_UINT64_T __Pyx_get_tp_dict_version(PyObject *obj) {
     PyObject *dict = Py_TYPE(obj)->tp_dict;
     return likely(dict) ? __PYX_GET_DICT_VERSION(dict) : 0;
@@ -2795,7 +3574,7 @@ static CYTHON_INLINE int __Pyx_object_dict_version_matches(PyObject* obj, PY_UIN
 #endif
 
 /* GetModuleGlobalName */
-#if CYTHON_USE_DICT_VERSIONS
+    #if CYTHON_USE_DICT_VERSIONS
 static PyObject *__Pyx__GetModuleGlobalName(PyObject *name, PY_UINT64_T *dict_version, PyObject **dict_cached_value)
 #else
 static CYTHON_INLINE PyObject *__Pyx__GetModuleGlobalName(PyObject *name)
@@ -2830,7 +3609,7 @@ static CYTHON_INLINE PyObject *__Pyx__GetModuleGlobalName(PyObject *name)
 }
 
 /* PyFunctionFastCall */
-#if CYTHON_FAST_PYCALL
+    #if CYTHON_FAST_PYCALL
 static PyObject* __Pyx_PyFunction_FastCallNoKw(PyCodeObject *co, PyObject **args, Py_ssize_t na,
                                                PyObject *globals) {
     PyFrameObject *f;
@@ -2949,7 +3728,7 @@ done:
 #endif
 
 /* PyCFunctionFastCall */
-#if CYTHON_FAST_PYCCALL
+    #if CYTHON_FAST_PYCCALL
 static CYTHON_INLINE PyObject * __Pyx_PyCFunction_FastCall(PyObject *func_obj, PyObject **args, Py_ssize_t nargs) {
     PyCFunctionObject *func = (PyCFunctionObject*)func_obj;
     PyCFunction meth = PyCFunction_GET_FUNCTION(func);
@@ -2972,7 +3751,7 @@ static CYTHON_INLINE PyObject * __Pyx_PyCFunction_FastCall(PyObject *func_obj, P
 #endif
 
 /* PyObjectCall */
-#if CYTHON_COMPILING_IN_CPYTHON
+    #if CYTHON_COMPILING_IN_CPYTHON
 static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw) {
     PyObject *result;
     ternaryfunc call = func->ob_type->tp_call;
@@ -2992,7 +3771,7 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg
 #endif
 
 /* PyObjectCall2Args */
-static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2) {
+    static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2) {
     PyObject *args, *result = NULL;
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(function)) {
@@ -3021,7 +3800,7 @@ done:
 }
 
 /* PyObjectCallMethO */
-#if CYTHON_COMPILING_IN_CPYTHON
+    #if CYTHON_COMPILING_IN_CPYTHON
 static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg) {
     PyObject *self, *result;
     PyCFunction cfunc;
@@ -3041,7 +3820,7 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject
 #endif
 
 /* PyObjectCallOneArg */
-#if CYTHON_COMPILING_IN_CPYTHON
+    #if CYTHON_COMPILING_IN_CPYTHON
 static PyObject* __Pyx__PyObject_CallOneArg(PyObject *func, PyObject *arg) {
     PyObject *result;
     PyObject *args = PyTuple_New(1);
@@ -3081,7 +3860,7 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObjec
 #endif
 
 /* Import */
-static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level) {
+    static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level) {
     PyObject *empty_list = 0;
     PyObject *module = 0;
     PyObject *global_dict = 0;
@@ -3146,7 +3925,7 @@ bad:
 }
 
 /* PyErrFetchRestore */
-#if CYTHON_FAST_THREAD_STATE
+    #if CYTHON_FAST_THREAD_STATE
 static CYTHON_INLINE void __Pyx_ErrRestoreInState(PyThreadState *tstate, PyObject *type, PyObject *value, PyObject *tb) {
     PyObject *tmp_type, *tmp_value, *tmp_tb;
     tmp_type = tstate->curexc_type;
@@ -3170,7 +3949,7 @@ static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject 
 #endif
 
 /* CLineInTraceback */
-#ifndef CYTHON_CLINE_IN_TRACEBACK
+    #ifndef CYTHON_CLINE_IN_TRACEBACK
 static int __Pyx_CLineForTraceback(CYTHON_NCP_UNUSED PyThreadState *tstate, int c_line) {
     PyObject *use_cline;
     PyObject *ptype, *pvalue, *ptraceback;
@@ -3212,7 +3991,7 @@ static int __Pyx_CLineForTraceback(CYTHON_NCP_UNUSED PyThreadState *tstate, int 
 #endif
 
 /* CodeObjectCache */
-static int __pyx_bisect_code_objects(__Pyx_CodeObjectCacheEntry* entries, int count, int code_line) {
+    static int __pyx_bisect_code_objects(__Pyx_CodeObjectCacheEntry* entries, int count, int code_line) {
     int start = 0, mid = 0, end = count - 1;
     if (end >= 0 && code_line > entries[end].code_line) {
         return count;
@@ -3292,7 +4071,7 @@ static void __pyx_insert_code_object(int code_line, PyCodeObject* code_object) {
 }
 
 /* AddTraceback */
-#include "compile.h"
+    #include "compile.h"
 #include "frameobject.h"
 #include "traceback.h"
 static PyCodeObject* __Pyx_CreateCodeObjectForTraceback(
@@ -3377,7 +4156,7 @@ bad:
 }
 
 /* CIntToPy */
-static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value) {
+    static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value) {
     const long neg_one = (long) ((long) 0 - (long) 1), const_zero = (long) 0;
     const int is_unsigned = neg_one > const_zero;
     if (is_unsigned) {
@@ -3408,7 +4187,7 @@ static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value) {
 }
 
 /* CIntFromPyVerify */
-#define __PYX_VERIFY_RETURN_INT(target_type, func_type, func_value)\
+    #define __PYX_VERIFY_RETURN_INT(target_type, func_type, func_value)\
     __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, 0)
 #define __PYX_VERIFY_RETURN_INT_EXC(target_type, func_type, func_value)\
     __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, 1)
@@ -3430,7 +4209,7 @@ static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value) {
     }
 
 /* CIntFromPy */
-static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *x) {
+    static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *x) {
     const long neg_one = (long) ((long) 0 - (long) 1), const_zero = (long) 0;
     const int is_unsigned = neg_one > const_zero;
 #if PY_MAJOR_VERSION < 3
@@ -3619,7 +4398,7 @@ raise_neg_overflow:
 }
 
 /* CIntFromPy */
-static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *x) {
+    static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *x) {
     const int neg_one = (int) ((int) 0 - (int) 1), const_zero = (int) 0;
     const int is_unsigned = neg_one > const_zero;
 #if PY_MAJOR_VERSION < 3
@@ -3808,7 +4587,7 @@ raise_neg_overflow:
 }
 
 /* FastTypeChecks */
-#if CYTHON_COMPILING_IN_CPYTHON
+    #if CYTHON_COMPILING_IN_CPYTHON
 static int __Pyx_InBases(PyTypeObject *a, PyTypeObject *b) {
     while (a) {
         a = a->tp_base;
@@ -3908,7 +4687,7 @@ static CYTHON_INLINE int __Pyx_PyErr_GivenExceptionMatches2(PyObject *err, PyObj
 #endif
 
 /* CheckBinaryVersion */
-static int __Pyx_check_binary_version(void) {
+    static int __Pyx_check_binary_version(void) {
     char ctversion[4], rtversion[4];
     PyOS_snprintf(ctversion, 4, "%d.%d", PY_MAJOR_VERSION, PY_MINOR_VERSION);
     PyOS_snprintf(rtversion, 4, "%s", Py_GetVersion());
@@ -3924,7 +4703,7 @@ static int __Pyx_check_binary_version(void) {
 }
 
 /* InitStrings */
-static int __Pyx_InitStrings(__Pyx_StringTabEntry *t) {
+    static int __Pyx_InitStrings(__Pyx_StringTabEntry *t) {
     while (t->p) {
         #if PY_MAJOR_VERSION < 3
         if (t->is_unicode) {

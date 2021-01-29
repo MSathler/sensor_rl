@@ -13,23 +13,28 @@ from collections import namedtuple, deque
 class ReacherEnv(object):
 
     def __init__(self,SCENE_FILE):
+
         self.pr = PyRep()
         self.pr.launch(SCENE_FILE, headless=True)
         self.pr.start()
 
         self.agent = P3dx()
         self.sensor = sensor()
+        self.memory_len = 5
 
         self.done = False
         self._reward = 0
         self.last_read = 0
         self.gradient = 0
-        self.concentration_memory = deque(maxlen=5)
-        self.distance_memory = deque(maxlen=5)
-        self.angle_memory = deque(maxlen=5)
+        self.concentration_memory = deque(maxlen=self.memory_len)
+        self.wind_x_memory = deque(maxlen=self.memory_len)
+        self.wind_y_memory = deque(maxlen= self.memory_len)
+        self.distance_memory = deque(maxlen=self.memory_len)
+        self.angle_memory = deque(maxlen=self.memory_len)
         self.initiate_Vmemory()
         self.zeros = 0
         self.read = 0.0
+        self.wind_x, self.wind_y = 0.0,0.0
         self.h = 0
         self.n = 0
         self.m_read = 0.0
@@ -39,6 +44,31 @@ class ReacherEnv(object):
         self.agent.set_motor_locked_at_zero_velocity(True)
         self.sensor.update(self.s_x, self.s_y)
         
+    ## Q table state
+    # def Q_get_state(self)
+
+
+    # def step(self, action):
+
+    #     wheel_action = self.actions(action)
+    #     self.agent.set_joint_target_velocities(wheel_action)  # Execute action
+
+    #     for i in range(20):
+    #         self.pr.step()  # Step the physics simulation
+
+    #     self.x,self.y,z = self.agent.get_2d_pose()
+    #     self.sensor.update(self.x,self.y)
+    #     self.read = self.sensor.read
+    #     #time.sleep(0.8)
+    #     #self.m_read = sum(self.read)/len(self.read)
+    #     #self.sensor.update()
+    #     self.gradient = 1 if (self.read - self.last_read) > 0 else 0
+    #     self.last_read = self.read
+    #     self.reward()
+    #     return self.done, self._reward, self._get_state()
+
+    ##
+
 
     def _get_state(self):
 
@@ -69,12 +99,13 @@ class ReacherEnv(object):
         ############### Relative Position end ################
 
         norm_read = self.read / 10000.0
-
+        self.wind_x_memory.append(self.wind_x)
+        self.wind_y_memory.append(self.wind_y)
         self.concentration_memory.append( norm_read )
         self.distance_memory.append( distance_n )
         self.angle_memory.append( angle )
-        
-        return np.concatenate( [ self.concentration_memory, self.distance_memory, self.angle_memory, np.array( [self.gradient] ) ] ) #( self.sensor.read / 10000 ),
+        # print(sum(self.distance_memory))
+        return np.concatenate( [ self.concentration_memory, self.distance_memory, self.angle_memory, np.array( [self.gradient] ), self.wind_x_memory, self.wind_y_memory ] ) #( self.sensor.read / 10000 ),
 
 
     
@@ -93,18 +124,22 @@ class ReacherEnv(object):
             return [-2.0,2.0]
 
     def step(self, action):
-        wheel_action = self.actions(action)
 
+        wheel_action = self.actions(action)
         self.agent.set_joint_target_velocities(wheel_action)  # Execute action
+
         for i in range(20):
             self.pr.step()  # Step the physics simulation
+
         self.x,self.y,z = self.agent.get_2d_pose()
         self.sensor.update(self.x,self.y)
         self.read = self.sensor.read
+        self.wind_x, self.wind_y = self.sensor.wind
+        # print(self.read)
         #time.sleep(0.8)
         #self.m_read = sum(self.read)/len(self.read)
         #self.sensor.update()
-        self.gradient = 1 if (self.read - self.last_read) > 0 else 0
+        self.gradient = 1 if (self.read - self.last_read) > 0 else 0 # (self.read / (self.last_read + 1)) if (self.last_read) == 0 else (self.read / self.last_read)
         self.last_read = self.read
         self.reward()
         return self.done, self._reward, self._get_state()
@@ -112,6 +147,9 @@ class ReacherEnv(object):
     def reward(self):
 
         self._reward = -1
+
+        if sum(self.distance_memory) <= 0.16:
+            self._reward -= 5
 
         if self.read > 0:
             self._reward += 1
@@ -135,7 +173,7 @@ class ReacherEnv(object):
             self._reward -= self.n
             
         
-        if self.read > 8000:
+        if self.read > 9000:
             self._reward += 1000
             self.done = True
 
@@ -159,10 +197,14 @@ class ReacherEnv(object):
         
     def initiate_Vmemory(self):
 
-        self.concentration_memory = deque(maxlen=5)
-        self.distance_memory = deque(maxlen=5)
-        self.angle_memory = deque(maxlen=5)
+        self.wind_x_memory = deque(maxlen=self.memory_len)
+        self.wind_y_memory = deque(maxlen=self.memory_len)
+        self.concentration_memory = deque(maxlen=self.memory_len)
+        self.distance_memory = deque(maxlen=self.memory_len)
+        self.angle_memory = deque(maxlen=self.memory_len)
         for _ in range(4):
+            self.wind_x_memory.append(0.0)
+            self.wind_y_memory.append(0.0)
             self.concentration_memory.append(0.0)
             self.distance_memory.append(0)
             self.angle_memory.append(0)
@@ -181,18 +223,22 @@ class ReacherEnv(object):
 
 
     def reset(self):
+        
+        #   Random initial position
 
-        # Get a random position within a cuboid and set the target position
-        # x_start, y_start = random.uniform(-4.025,7.375),random.uniform(-3.35,8.05)
-        self.x_y_start()
-        self.agent.set_2d_pose([self.x_start, self.y_start,0.0])
-        # self.agent.set_2d_pose(self.starting_pose)
+        # self.x_y_start()
+        # self.agent.set_2d_pose([self.x_start, self.y_start,0.0])
+        
+        #   Fixed initial position
+        self.agent.set_2d_pose(self.starting_pose)
+
         self._reward = -1
         self.last_read = 0
         self.gradient = 0
         self.h = 0
         self.n = 0
         self.read = 0.0
+        self.wind_x, self.wind_y = 0.0,0.0
         self.zeros = 0
         self.initiate_Vmemory()
         self.done = False

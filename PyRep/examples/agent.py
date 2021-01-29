@@ -1,6 +1,6 @@
 import numpy as np
 import random
-from collections import namedtuple, deque
+from collections import namedtuple, deque, defaultdict
 
 from model import QNetwork
 
@@ -10,10 +10,12 @@ import torch.optim as optim
 
 BUFFER_SIZE = int(1e6)  # replay buffer size
 BATCH_SIZE = 3200        # minibatch size
-GAMMA = 0.95            # discount factor
+GAMMA = 0.5            # discount factor
 TAU = 1e-3              # for soft update of target parameters
 LR = 3e-4               # learning rate 
 UPDATE_EVERY = 1        # how often to update the network
+
+ALPHA = 0.5
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
@@ -33,6 +35,9 @@ class Agent():
         self.action_size = action_size
         self.seed = random.seed(seed)
 
+        # Q-Sarsa
+        self.Q = defaultdict(lambda: np.zeros(action_size))
+
         # Q-Network
         self.qnetwork_local = QNetwork(state_size, action_size, seed).to(device)
         self.qnetwork_target = QNetwork(state_size, action_size, seed).to(device)
@@ -43,6 +48,21 @@ class Agent():
         # Initialize time step (for updating every UPDATE_EVERY steps)
         self.t_step = 0
     
+    # Q -sarsa
+
+    def Q_action(self, state, eps = 0):
+        if random.random() > eps:
+            return np.argmax(self.Q[state])
+        else:
+            return random.choice(np.arange(self.state_size))
+        
+    def Q_step(self, state, action, reward, next_state, done):
+        current = self.Q[state][action]
+        Qsa_next = np.max(self.Q[next_state]) if next_state is not None else 0
+        target = reward + (GAMMA * Qsa_next)
+        self.Q[state][action] = current + (ALPHA * (target - current))
+
+
     def step(self, state, action, reward, next_state, done):
         # Save experience in replay memory
         self.memory.add(state, action, reward, next_state, done)
@@ -160,3 +180,5 @@ class ReplayBuffer:
     def __len__(self):
         """Return the current size of internal memory."""
         return len(self.memory)
+        
+

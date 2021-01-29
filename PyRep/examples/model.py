@@ -1,6 +1,11 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+import numpy as np
+from torch.distributions import Categorical
+import random
+
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 class QNetwork(nn.Module):
 
@@ -22,7 +27,61 @@ class QNetwork(nn.Module):
 
     def forward(self, state):
         """Build a network that maps state -> action values."""
-        x = F.tanh(self.fc1(state))
-        x = F.tanh(self.fc2(x))
+        x = torch.tanh(self.fc1(state))
+        x = torch.tanh(self.fc2(x))
+        # print(x)
+        # x = self.fc3(x)
+        # print("soft abaixo")
+        # print(F.softmax(self.fc3(x), dim=1))
         return self.fc3(x)
 
+
+###########################################################################
+class hill_climbing_Policy():
+
+    def __init__(self, state_size=16, action_size=5):
+        self.w = 1e-4*np.random.rand(state_size, action_size)  # weights for simple linear policy: state_space x action_space
+        self.action_size = action_size
+    def forward(self, state):
+        x = np.dot(state, self.w)
+        return np.exp(x)/sum(np.exp(x))
+    
+    def act(self, state, eps):
+        probs = self.forward(state)
+        #action = np.random.choice(2, p=probs) # option 1: stochastic policy option 2: deterministic policy
+
+        if random.random() > eps:
+            return np.argmax(probs) 
+            
+        else:
+            return random.choice(np.arange(self.action_size))
+        
+#############################################################################
+
+
+
+#############################################################################
+class Reinforce_Policy(nn.Module):
+    def __init__(self, state_size=16, action_size=5, h1_size=64,h2_size=64):
+        super(Reinforce_Policy, self).__init__()
+        self.fc1 = nn.Linear(state_size, h1_size)
+        self.fc2 = nn.Linear(h1_size, action_size)
+        self.action_size = action_size
+
+    def forward(self, x):
+        x = F.relu(self.fc1(x))
+        x = self.fc2(x)
+        
+        return F.softmax(x, dim=1)
+    
+    def act(self, state):
+        state = torch.from_numpy(state).float().unsqueeze(0).to(device)
+        probs = self.forward(state).cpu()
+        m = Categorical(probs)
+        action = m.sample()
+        # if random.random() > eps:
+        return action.item(), m.log_prob(action)
+            
+        # else:
+        #     return random.choice(np.arange(self.action_size)), m.log_prob(action)
+#############################################################################
